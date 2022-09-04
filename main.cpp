@@ -120,7 +120,7 @@ int main()
     {
     ToTranslate:
 
-        //std::cout << '\r' << "iterationCounter: " << iterationCounter;
+        std::cout << '\r' << "iterationCounter: " << iterationCounter << " i=" << i;
 
         allParts[i].translateAlongY(currentTranslationY[i]);
         allParts[i].translateAlongX(currentTranslationX[i]);
