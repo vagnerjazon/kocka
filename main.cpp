@@ -144,18 +144,32 @@ int main()
                 if (allParts[i].isTranslatableAlongX(currentTranslationX[i] + 1))
                 {
                     currentTranslationX[i]++;
+                    currentTranslationY[i] = 0; //reset Y translation
                     currentOrientation[i]--;
                     goto ToTranslate;
                 }
                 goto NextOrientation;
             }
         }
-        else //if this part does not fit in any possible place, go back to the previous one
+        else //if this part does not fit in any possible place, try to translate it (because of the first part), or else go back to the previous one
         {
+            resetPart(i); //resetting this part
             currentOrientation[i] = 0;
+            if (allParts[i].isTranslatableAlongY(currentTranslationY[i] + 1))
+            {
+                currentTranslationY[i]++;
+                goto ToTranslate;
+            }
+            if (allParts[i].isTranslatableAlongX(currentTranslationX[i] + 1))
+            {
+                currentTranslationX[i]++;
+                currentTranslationY[i] = 0; //reset Y translation
+                goto ToTranslate;
+            }
+
+            //stepping back to the previos part
             currentTranslationX[i] = 0;
             currentTranslationY[i] = 0;
-            resetPart(i); //resetting this part
             i--;
             resetPart(i); //also resetting the previous part
             space = Space(); //reset space to conatin only the parts before the previous one
