@@ -139,10 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="kocka.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Part.cpp" />
     <ClCompile Include="Space.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Coord3D.h" />
+    <ClInclude Include="Part.h" />
     <ClInclude Include="Space.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
