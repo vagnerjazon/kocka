@@ -119,10 +119,13 @@ int main()
     for (int i = 0; i < 6; i++)
     {
     ToTranslate:
+
+        //std::cout << '\r' << "iterationCounter: " << iterationCounter;
+
         allParts[i].translateAlongY(currentTranslationY[i]);
         allParts[i].translateAlongX(currentTranslationX[i]);
 
-    NextOrientation:
+    //NextOrientation:
         iterationCounter++;
         if (currentOrientation[i] < 24)
         {
@@ -148,7 +151,9 @@ int main()
                     currentOrientation[i]--;
                     goto ToTranslate;
                 }
-                goto NextOrientation;
+                currentTranslationX[i] = 0;
+                currentTranslationY[i] = 0;
+                goto ToTranslate;
             }
         }
         else //if this part does not fit in any possible place, try to translate it (because of the first part), or else go back to the previous one
@@ -167,7 +172,7 @@ int main()
                 goto ToTranslate;
             }
 
-            //stepping back to the previos part
+            //stepping back to the previous part
             currentTranslationX[i] = 0;
             currentTranslationY[i] = 0;
             i--;
@@ -176,7 +181,8 @@ int main()
             for (int ii = 0; ii < i; ii++)
                 space = space + allParts[ii];
 
-            if (i < 0) throw std::invalid_argument("i<0");
+            if (i < 0)
+                throw std::invalid_argument("No solution");
             goto ToTranslate;
         }
     }
@@ -189,6 +195,8 @@ int main()
         std::cout << "Y translation: " << currentTranslationY[i] << std::endl << std::endl;
         std::cout << "iterationCounter: " << iterationCounter << std::endl;
     }
+
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
