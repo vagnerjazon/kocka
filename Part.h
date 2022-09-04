@@ -64,13 +64,13 @@ private:
 	};
 
 public:
-	Part();
-
-	int isTranslatableAlongX(int steps = 1) const;
-	int isTranslatableAlongY(int steps = 1) const;
+	bool isTranslatableAlongX(int steps = 1) const;
+	bool isTranslatableAlongY(int steps = 1) const;
+	bool isTranslatableAlongZ(int steps = 1) const;
 
 	void translateAlongX(int steps);
 	void translateAlongY(int steps);
+	void translateAlongZ(int steps);
 
 	void applyRotation(int orientationIndex);
 

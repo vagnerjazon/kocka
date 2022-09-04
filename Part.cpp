@@ -1,11 +1,7 @@
 #include "Part.h"
 
-Part::Part()
-{
-	
-}
 
-int Part::isTranslatableAlongX(int steps) const
+bool Part::isTranslatableAlongX(int steps) const
 {
 	for (int i = (4 - steps); i < 4; i++) //x
 		for (int j = 0; j < 4; j++) //y
@@ -15,11 +11,21 @@ int Part::isTranslatableAlongX(int steps) const
 	return true;
 }
 
-int Part::isTranslatableAlongY(int steps) const
+bool Part::isTranslatableAlongY(int steps) const
 {
 	for (int i = 0; i < 4; i++) //x
 		for (int j = (4 - steps); j < 4; j++) //y
 			for (int k = 0; k < 4; k++) //z
+				if (getVoxel(i, j, k))
+					return false;
+	return true;
+}
+
+bool Part::isTranslatableAlongZ(int steps) const
+{
+	for (int i = 0; i < 4; i++) //x
+		for (int j = 0; j < 4; j++) //y
+			for (int k = (4 - steps); k < 4; k++) //z
 				if (getVoxel(i, j, k))
 					return false;
 	return true;
@@ -47,6 +53,18 @@ void Part::translateAlongY(int steps)
 						setVoxel(i, j, k, 0);
 					else
 						setVoxel(i, j, k, getVoxel(i, j - 1, k)); //j-1
+}
+
+void Part::translateAlongZ(int steps)
+{
+	while (steps--)
+		for (int i = 0; i < 4; i++) //x
+			for (int j = 0; j < 4; j++) //y
+				for (int k = 3; k >= 0; k--) //z //from 3!
+					if (k == 0)
+						setVoxel(i, j, k, 0);
+					else
+						setVoxel(i, j, k, getVoxel(i, j, k - 1)); //k-1
 }
 
 void Part::rotXfaceP90() //rotation around the X direction, (the axis is in the middle of the cube face)

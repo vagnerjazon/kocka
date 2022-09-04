@@ -97,96 +97,89 @@ void resetAllParts()
     allParts[5] = allParts_original[5];
 }
 
-void resetPart(int index)
-{
-    allParts[index] = allParts_original[index];
-}
-
 int currentOrientation[6] = { 0, 0, 0, 0, 0, 0 };
 int currentTranslationX[6] = { 0, 0, 0, 0, 0, 0 };
 int currentTranslationY[6] = { 0, 0, 0, 0, 0, 0 };
+int currentTranslationZ[6] = { 0, 0, 0, 0, 0, 0 };
 
-int main()
+int iterationCounter = 0;
+
+void incrementConfiguration()
 {
-    initParts();
-
-    Space space;
-
-    resetAllParts();
-    
-    int iterationCounter = 0;
+    iterationCounter++;
 
     for (int i = 0; i < 6; i++)
     {
-    ToTranslate:
-
-        std::cout << '\r' << "iterationCounter: " << iterationCounter << " i=" << i;
-
-        allParts[i].translateAlongY(currentTranslationY[i]);
-        allParts[i].translateAlongX(currentTranslationX[i]);
-
-    //NextOrientation:
-        iterationCounter++;
-        if (currentOrientation[i] < 24)
+        if (allParts[i].isTranslatableAlongZ(currentTranslationZ[i] + 1))
         {
-            allParts[i].applyRotation(currentOrientation[i]);
-            currentOrientation[i]++;
-
-            Space temp = space + allParts[i];
-            if (temp.ContainsOverlap() == false)
-                space = temp;
-            else
-            {
-                resetPart(i);
-                if (allParts[i].isTranslatableAlongY(currentTranslationY[i] + 1))
-                {
-                    currentTranslationY[i]++;
-                    currentOrientation[i]--;
-                    goto ToTranslate;
-                }
-                if (allParts[i].isTranslatableAlongX(currentTranslationX[i] + 1))
-                {
-                    currentTranslationX[i]++;
-                    currentTranslationY[i] = 0; //reset Y translation
-                    currentOrientation[i]--;
-                    goto ToTranslate;
-                }
-                currentTranslationX[i] = 0;
-                currentTranslationY[i] = 0;
-                goto ToTranslate;
-            }
+            currentTranslationZ[i]++;
+            break;
         }
-        else //if this part does not fit in any possible place, try to translate it (because of the first part), or else go back to the previous one
+        if (allParts[i].isTranslatableAlongY(currentTranslationY[i] + 1))
         {
-            resetPart(i); //resetting this part
-            currentOrientation[i] = 0;
-            if (allParts[i].isTranslatableAlongY(currentTranslationY[i] + 1))
-            {
-                currentTranslationY[i]++;
-                goto ToTranslate;
-            }
-            if (allParts[i].isTranslatableAlongX(currentTranslationX[i] + 1))
-            {
-                currentTranslationX[i]++;
-                currentTranslationY[i] = 0; //reset Y translation
-                goto ToTranslate;
-            }
-
-            //stepping back to the previous part
-            currentTranslationX[i] = 0;
+            currentTranslationY[i]++;
+            currentTranslationZ[i] = 0;
+            break;
+        }
+        if (allParts[i].isTranslatableAlongX(currentTranslationX[i] + 1))
+        {
+            currentTranslationX[i]++;
             currentTranslationY[i] = 0;
-            i--;
-            resetPart(i); //also resetting the previous part
-            space = Space(); //reset space to conatin only the parts before the previous one
-            for (int ii = 0; ii < i; ii++)
-                space = space + allParts[ii];
+            currentTranslationZ[i] = 0;
+            break;
+        }
 
-            if (i < 0)
-                throw std::invalid_argument("No solution");
-            goto ToTranslate;
+        currentTranslationX[i] = 0;
+        currentTranslationY[i] = 0;
+        currentTranslationZ[i] = 0;
+
+        if (currentOrientation[i] < (24-1))
+        {
+            currentOrientation[i]++;
+            break;
+        }
+        else
+        {
+            currentOrientation[i] = 0;
         }
     }
- 
+}
+
+bool isThisTheSolution()
+{
+    Space space;
+    for (int i = 0; i < 6; i++)
+    {
+        allParts[i].translateAlongY(currentTranslationY[i]);
+        allParts[i].translateAlongX(currentTranslationX[i]);
+        allParts[i].translateAlongZ(currentTranslationZ[i]);
+        allParts[i].applyRotation(currentOrientation[i]);
+        
+        space = space + allParts[i];
+        if (space.ContainsOverlap())
+        {
+            resetAllParts();
+            return false;
+        }
+    }
+    return true;
+}
+
+
+int main()
+{
+    Space space;
+    initParts();
+    resetAllParts();
+
+    while (isThisTheSolution() == false)
+    {
+        if ((iterationCounter % 100000) == 0)
+            std::cout << '\r' << "iter.: " << iterationCounter;
+
+        incrementConfiguration();
+    }
+
     for (int i = 0; i < 6; i++)
     {
         std::cout << "part: " << i << std::endl;
