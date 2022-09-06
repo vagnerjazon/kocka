@@ -102,7 +102,7 @@ int currentTranslationX[6] = { 0, 0, 0, 0, 0, 0 };
 int currentTranslationY[6] = { 0, 0, 0, 0, 0, 0 };
 int currentTranslationZ[6] = { 0, 0, 0, 0, 0, 0 };
 
-int iterationCounter = 0;
+unsigned long long iterationCounter = 0;
 
 void incrementConfiguration()
 {
@@ -180,14 +180,19 @@ int main()
         incrementConfiguration();
     }
 
+    std::cout << std::endl;
+
     for (int i = 0; i < 6; i++)
     {
+        std::cout << std::endl;
         std::cout << "part: " << i << std::endl;
-        std::cout << "orientation: " << (currentOrientation[i] - 1) << std::endl;
         std::cout << "X translation: " << currentTranslationX[i] << std::endl;
-        std::cout << "Y translation: " << currentTranslationY[i] << std::endl << std::endl;
-        std::cout << "iterationCounter: " << iterationCounter << std::endl;
+        std::cout << "Y translation: " << currentTranslationY[i] << std::endl;
+        std::cout << "Z translation: " << currentTranslationZ[i] << std::endl;
+        std::cout << "orientation: " << currentOrientation[i] << std::endl << std::endl;
     }
+
+    std::cout << "iterationCounter: " << iterationCounter << std::endl;
 
     return 0;
 }
