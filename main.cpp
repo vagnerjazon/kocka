@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Space.h"
 #include "Part.h"
 
@@ -180,19 +181,21 @@ int main()
         incrementConfiguration();
     }
 
-    std::cout << std::endl;
+    std::ofstream myfile;
+    myfile.open("result.txt");
 
     for (int i = 0; i < 6; i++)
     {
-        std::cout << std::endl;
-        std::cout << "part: " << i << std::endl;
-        std::cout << "X translation: " << currentTranslationX[i] << std::endl;
-        std::cout << "Y translation: " << currentTranslationY[i] << std::endl;
-        std::cout << "Z translation: " << currentTranslationZ[i] << std::endl;
-        std::cout << "orientation: " << currentOrientation[i] << std::endl << std::endl;
+        myfile << "part: " << i << std::endl;
+        myfile << "X translation: " << currentTranslationX[i] << std::endl;
+        myfile << "Y translation: " << currentTranslationY[i] << std::endl;
+        myfile << "Z translation: " << currentTranslationZ[i] << std::endl;
+        myfile << "orientation: " << currentOrientation[i] << std::endl << std::endl;
     }
 
-    std::cout << "iterationCounter: " << iterationCounter << std::endl;
+    myfile << "iterationCounter: " << iterationCounter << std::endl;
+
+    myfile.close();
 
     return 0;
 }
