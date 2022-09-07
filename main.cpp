@@ -173,29 +173,32 @@ int main()
     initParts();
     resetAllParts();
 
+    std::ofstream statusFile;
+    statusFile.open("status.txt");
+
     while (isThisTheSolution() == false)
     {
-        if ((iterationCounter % 100000) == 0)
-            std::cout << '\r' << "iter.: " << iterationCounter;
+        if ((iterationCounter % 1000000000) == 0)
+            statusFile << iterationCounter << std::endl;
 
         incrementConfiguration();
     }
 
-    std::ofstream myfile;
-    myfile.open("result.txt");
+    std::ofstream resultFile;
+    resultFile.open("result.txt");
 
     for (int i = 0; i < 6; i++)
     {
-        myfile << "part: " << i << std::endl;
-        myfile << "X translation: " << currentTranslationX[i] << std::endl;
-        myfile << "Y translation: " << currentTranslationY[i] << std::endl;
-        myfile << "Z translation: " << currentTranslationZ[i] << std::endl;
-        myfile << "orientation: " << currentOrientation[i] << std::endl << std::endl;
+        resultFile << "part: " << i << std::endl;
+        resultFile << "X translation: " << currentTranslationX[i] << std::endl;
+        resultFile << "Y translation: " << currentTranslationY[i] << std::endl;
+        resultFile << "Z translation: " << currentTranslationZ[i] << std::endl;
+        resultFile << "orientation: " << currentOrientation[i] << std::endl << std::endl;
     }
 
-    myfile << "iterationCounter: " << iterationCounter << std::endl;
+    resultFile << "iterationCounter: " << iterationCounter << std::endl;
 
-    myfile.close();
+    resultFile.close();
 
     return 0;
 }
