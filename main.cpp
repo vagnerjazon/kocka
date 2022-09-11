@@ -59,7 +59,7 @@ void initParts()
     part5.setVoxel(3, 3, 0, 1);
     part5.setVoxel(2, 1, 0, 1);
     part5.setVoxel(2, 2, 0, 1);
-    part5.setVoxel(1, 3, 0, 1);
+    part5.setVoxel(1, 2, 0, 1);
     part5.setVoxel(0, 1, 0, 1);
     part5.setVoxel(0, 2, 0, 1);
     part5.setVoxel(0, 3, 0, 1);
