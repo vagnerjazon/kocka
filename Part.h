@@ -17,9 +17,9 @@ private:
 	void(Part::*orientation_7[4])()  = { &Part::rotXfaceP90,	&Part::rotYfaceM90,		nullptr,				nullptr };
 
 	void(Part::*orientation_8[4])()  = { &Part::rotXfaceM90,	nullptr,				nullptr,				nullptr };
-	void(Part::*orientation_9[4])()  = { &Part::rotXfaceP90,	&Part::rotYfaceP90,		nullptr,				nullptr };
-	void(Part::*orientation_10[4])() = { &Part::rotXfaceP90,	&Part::rotYfaceP90,		&Part::rotYfaceP90,		nullptr };
-	void(Part::*orientation_11[4])() = { &Part::rotXfaceP90,	&Part::rotYfaceM90,		nullptr,				nullptr };
+	void(Part::*orientation_9[4])()  = { &Part::rotXfaceM90,	&Part::rotYfaceP90,		nullptr,				nullptr };
+	void(Part::*orientation_10[4])() = { &Part::rotXfaceM90,	&Part::rotYfaceP90,		&Part::rotYfaceP90,		nullptr };
+	void(Part::*orientation_11[4])() = { &Part::rotXfaceM90,	&Part::rotYfaceM90,		nullptr,				nullptr };
 
 	void(Part::*orientation_12[4])() = { &Part::rotYfaceP90,	nullptr,				nullptr,				nullptr };
 	void(Part::*orientation_13[4])() = { &Part::rotYfaceP90,	&Part::rotXfaceP90,		nullptr,				nullptr };
